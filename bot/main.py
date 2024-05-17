@@ -23,30 +23,18 @@ async def register_user(update: Update, context: CallbackContext):
     else:   
         await update.message.reply_text('Не корректая форма для регистрации')
 
-
-"""
-def donwload_music(search): 
-    s = Search(search) 
-    if len(s.results) > 0: 
-        print(s.results[0].video_id) 
-        url = 'https://www.youtube.com/watch?v=' + s.results[0].video_id 
-        yt = YouTube(url)
-        output_path = 'media/' + 'stat'
-        os.mkdir(output_path)
-        video = yt.streams.filter(only_audio=True).first() 
-        downloaded_file = video.download(output_path=output_path) 
-        base, ext = os.path.splitext(downloaded_file) 
-        new_file = base + '.mp3' 
-        os.rename(downloaded_file, new_file)
-
-"""
-"""
-async def youtube_download(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    username = await get_username(update.message.chat.id)
-    await context.bot.send_audio(chat_id=254451024, audio='media/stat/Numb.mp3')
-    #search_user = context.args
-   # print(f'ЗАПРОС: {search_user}, ЮЗЕР:{username}')
-"""
+async def music(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = context.args
+    telegram_id = update.message.chat.id
+    async with aiohttp.ClientSession() as session:
+        data = {"telegram_id": telegram_id, "query": ''.join(query)}
+        response = await session.post('http://127.0.0.1:8000/api/music/download/', json=data)
+        if response.status == 200:
+            from anyio import open_file
+            async with await open_file('audio_file.mp3', 'wb') as file:
+                content = await response.read()
+                await file.write(content)
+                await context.bot.send_audio(chat_id=telegram_id, audio='audio_file.mp3')
 
 async def req_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -57,9 +45,10 @@ async def req_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def main() -> None:
-    application = Application.builder().token('7185505813:AAH-weBAQahUgo1sLNbTl2zxpsyfyfV_7xo').build()
+    application = Application.builder().token('7185505813:AAHgGv4-8iZWJewc9V6Sgi-JrwHbK8CcD-Q').build()
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CommandHandler('register', register_user))
+    application.add_handler(CommandHandler('m', music))
     #application.add_handler(CommandHandler('download', youtube_download))
 
 
