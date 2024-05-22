@@ -5,7 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenMusic</title>
 </head>
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: coral;
+}
+.container{
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: deeppink;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+h1{
+    text-align: center;
+    color: #e6dada;
+}
+form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+label{
+    flex: 1;
+    margin-right: 10px;
+    margin-left: 15px;
+}
+input{
+    flex: 3;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+button{
+    padding: 8px 15px;
+    background-color: whitesmoke;
+    margin-left: 15px;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: royalblue;
+}
+audio{
+    width: 100%;
+    margin-top: 20px;
+}
+</style>
 <body>
+    <div class="container">
+        <h1>OpenMusic</h1>
     <form>
         <label>Название песни:</label>
         <input id="inputNameMusic">
@@ -16,7 +73,7 @@
 <audio controls id="audioPlayer">
 
 </audio>
-
+</div>
 <script>
 
 const btnGetMusic = document.getElementById('btnGetMusic')
@@ -41,7 +98,6 @@ btnGetMusic.addEventListener('click', async function(event){
         link.download = inputNameMusic + '.mp3';
         link.textContent = 'ССЫЛКА НА СКАЧКУ'
         document.body.appendChild(link)
-        
         //audioPlayer.player()
     }else{
         console.log('Не получен файл')
