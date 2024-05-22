@@ -5,7 +5,7 @@ def create_table_database():
     cursor = connect.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
-                   user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                    username VARCHAR(30) NOT NULL UNIQUE,
                    password VARCHAR(255) NOT NULL,
                    telegram_id INTEGER
@@ -13,7 +13,7 @@ def create_table_database():
 ''')
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS musics (
-                   music_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                    user_id INTEGER,
                    query_user TEXT NOT NULL,
                    url_music TEXT,
