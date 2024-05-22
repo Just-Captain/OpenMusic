@@ -29,7 +29,7 @@ class UserCrud:
     def get_user_web(self, username:str):
         connect = sqlite3.connect(self.db)
         cursor = connect.cursor()
-        sql = f'SELECT * FROM users WHERE username = {username}'
+        sql = f'SELECT * FROM users WHERE username = "{username}"'
         cursor.execute(sql)
         user = cursor.fetchone()
         connect.close()

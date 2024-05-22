@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenMusic</title>
+</head>
+<body>
+    <form>
+        <label>Название песни:</label>
+        <input id="inputNameMusic">
+        <label>Ваш username:</label>
+        <input id="inputNameUsername">
+        <button id="btnGetMusic">Получить песню</button>
+    </form>
+<audio controls id="audioPlayer">
+
+</audio>
+
+<script>
+
+const btnGetMusic = document.getElementById('btnGetMusic')
+btnGetMusic.addEventListener('click', async function(event){
+    event.preventDefault()
+    const inputNameMusic = document.getElementById('inputNameMusic').value
+    const inputNameUsername = document.getElementById('inputNameUsername').value
+    const data = {"username": inputNameUsername, "query": inputNameMusic}
+    response = await fetch('http://127.0.0.1:8000/api/music/download/',
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        }
+    )
+    if (response.ok) {
+        const blob = await response.blob();
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = URL.createObjectURL(blob)
+        const link = document.createElement('a');
+        link.href = audioPlayer.src;
+        link.download = inputNameMusic + '.mp3';
+        link.textContent = 'ССЫЛКА НА СКАЧКУ'
+        document.body.appendChild(link)
+        
+        //audioPlayer.player()
+    }else{
+        console.log('Не получен файл')
+    }
+})
+
+
+
+
+
+
+</script>
+</body>
+</html>
