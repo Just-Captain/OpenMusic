@@ -1,6 +1,7 @@
 .idea
 .ipynb_checkpoints
 .mypy_cache
+
 .vscode
 __pycache__
 .pytest_cache
@@ -18,6 +19,7 @@ env
 docs_build
 site_build
 venv
+.media/music
 docs.zip
 archive.zip
 
